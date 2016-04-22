@@ -823,8 +823,9 @@ def main():
                 if version in get_tags(git_path, module, dest):
                     repo_updated = False
             else:
-                # if the remote is a branch and we have the branch locally, exit early
-                if version in get_branches(git_path, module, dest):
+                # if the remote is a branch and we have the branch locally
+                # or we're unmodified in check mode, exit early
+                if module.check_mode or version in get_branches(git_path, module, dest):
                     repo_updated = False
         if repo_updated is None:
             if module.check_mode:
